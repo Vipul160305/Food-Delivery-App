@@ -10,61 +10,65 @@ import Restropage from "./components/Restropage";
 import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { CartContext } from "./utils/CartContext";
 import Cart from "./components/Cart";
-
+import Login from "./components/Login";
+import Signup from "./components/Singup";
 
 const AppLayout = () => {
-  const [ cartItem, setCartItem ] = useState([]);
+  const [cartItem, setCartItem] = useState([]);
 
   const handleAddToCart = (item) => {
-    // Check if the item is already present in the cart
-    const existingItem = cartItem.find(i => i.card.info.id === item.card.info.id);
-  
+    const existingItem = cartItem.find(
+      (i) => i.card.info.id === item.card.info.id
+    );
+
     if (existingItem) {
-      // Update the cart: only increase the quantity of the matching item
-      const updatedCart = cartItem.map(i => 
-        i.card.info.id === item.card.info.id 
-          ? { ...i, quantity: i.quantity + 1 } 
+      const updatedCart = cartItem.map((i) =>
+        i.card.info.id === item.card.info.id
+          ? { ...i, quantity: i.quantity + 1 }
           : i
       );
       setCartItem(updatedCart);
     } else {
-      // If it's a new item, initialize its quantity and add to the cart
       item.quantity = 1;
-      setCartItem(prevItems => [...prevItems, item]);
+      setCartItem((prevItems) => [...prevItems, item]);
     }
   };
 
   const removeItemToCart = (item) => {
-    if(item.quantity==1){
+    if (item.quantity == 1) {
       setCartItem((prev) => {
         return prev.filter((cartItem) => cartItem !== item);
       });
-    }
-    else
-    {
-      const updatedCart = cartItem.map(i => 
-        i.card.info.id === item.card.info.id 
-          ? { ...i, quantity: i.quantity - 1 } 
+    } else {
+      const updatedCart = cartItem.map((i) =>
+        i.card.info.id === item.card.info.id
+          ? { ...i, quantity: i.quantity - 1 }
           : i
       );
       setCartItem(updatedCart);
     }
   };
-  const clearCart=()=>{
+  const clearCart = () => {
     setCartItem([]);
-  }
-  
+  };
+
   return (
-    
-    <CartContext.Provider value={{ cartItem, setCartItem ,handleAddToCart,removeItemToCart,clearCart}}>
-  
+    <CartContext.Provider
+      value={{
+        cartItem,
+        setCartItem,
+        handleAddToCart,
+        removeItemToCart,
+        clearCart,
+      }}
+    >
       <div className="app">
         <Header />
         <Outlet />
         <Footer />
       </div>
     </CartContext.Provider>
-    
+
     // </Provider>
   );
 };
@@ -94,6 +98,14 @@ const appRouter = createBrowserRouter([
       {
         path: "/Cart",
         element: <Cart />,
+      },
+      {
+        path: "/Login",
+        element: <Login />,
+      },
+      {
+        path: "/Signup",
+        element: <Signup />,
       },
     ],
     errorElement: <ErrorPage />,

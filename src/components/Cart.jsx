@@ -16,7 +16,11 @@ const Cart = () => {
   
 
   if (cartItem.length == 0) {
-    return <h1>Empty cart ! please add item</h1>;
+    return (
+      <div className="Empty-cart">
+        <img className="empty-cart-img" src="https://img.freepik.com/free-vector/supermarket-shopping-cart-concept-illustration_114360-22408.jpg?ga=GA1.1.490522350.1716189183&semt=ais_hybrid&w=740"alt="Empty Cart!.."></img>
+      </div>
+    );
   }
   return (
     <div className="cart">
@@ -31,7 +35,7 @@ const Cart = () => {
                 <button onClick={()=>{handleAddToCart(Item)}} >+</button> <span>{Item.quantity}</span> <button onClick={()=>{removeItemToCart(Item)}} >-</button>
               </div>
               
-              <p> ₹{Item.card.info.price / 100 || Item?.card?.info?.defaultPrice/100}</p>
+              <p> ₹{Item.card.info.price / 100*Item.quantity || Item?.card?.info?.defaultPrice/100*Item.quantity}</p>
             </div>
           </div>
         );
@@ -41,7 +45,7 @@ const Cart = () => {
       </h2>
 
       <div>
-        <button className="pay-btn">pay now</button>
+        <button className="pay-btn">Pay Now</button>
         <button className="clear-cart-btn" onClick={()=>clearCart()}>Clear Cart</button>
       </div>
     </div>
